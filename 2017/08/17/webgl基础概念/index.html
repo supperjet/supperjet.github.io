@@ -166,9 +166,9 @@
 <p>上方我们设置 gl_FragColor 为 1, 0, 0.5, 1，其中1代表红色值，0代表绿色值， 0.5代表蓝色值，最后一个1表示阿尔法通道值。WebGL中的颜色值范围从 0 到 1 。</p>
 <p>现在我们有了两个着色器方法，让我们开始使用WebGL吧</p>
 <p>首先我们需要一个HTML中的canvas（画布）对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;canvas id=<span class="string">"c"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"c"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>然后可以用JavaScript获取它</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"c"</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"c"</span>);</div></pre></td></tr></table></figure>
 <p>现在我们创建一个WebGL渲染上下文（WebGLRenderingContext）</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> <span class="keyword">gl</span> = canvas.getContext(<span class="string">"webgl"</span>);</div><div class="line"> <span class="keyword">if</span> (!<span class="keyword">gl</span>) &#123;</div><div class="line">    <span class="comment">// 你不能使用WebGL！</span></div><div class="line">    ...</div></pre></td></tr></table></figure>
 <p>现在我们需要编译着色器对然后提交到GPU，先让我们通过字符串获取它们。 你可以利用JavaScript中创建字符串的方式创建GLSL字符串：用串联的方式（concatenating）， 用AJAX下载，用多行模板数据。或者在这个例子里，将它们放在非JavaScript类型的标签中。</p>
