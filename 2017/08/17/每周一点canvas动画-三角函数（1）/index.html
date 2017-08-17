@@ -168,7 +168,7 @@
 <p>我们最终得到的结果就是一个，可以跟随鼠标旋转的箭头。</p>
 <p><img src="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2Ftan.gif?OSSAccessKeyId=LTAIkU9IYC0zIU2B&amp;Expires=1862932714&amp;Signature=m8Qfxs%2BdRy5cLkoHwUVyGo27x2k%3D" alt=""></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这节你应该学会了如何运用三角函数，控制物体的旋转。重点公式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dx = mouse.x - object.x;</div><div class="line">dy = mouse.y - object.y;</div><div class="line">object.rotation = Math.atan2(dy,dx);</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dx = mouse.x - <span class="class"><span class="keyword">object</span>.<span class="title">x</span></span>;</div><div class="line">dy = mouse.y - <span class="class"><span class="keyword">object</span>.<span class="title">y</span></span>;</div><div class="line"><span class="class"><span class="keyword">object</span>.<span class="title">rotation</span> </span>= <span class="type">Math</span>.atan2(dy,dx);</div></pre></td></tr></table></figure>
 
   </div>
 </article>
