@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="圆周运动可以分为两种基本的形式：正圆运动和椭圆运动。在讲解圆周运动之前，必不可少的数学公式即将袭来。so,各位骚年们，请护好自己的膝盖。听不懂没关系，只要明白其中的原理就行。当然，能懂是最好的，这对后面学习高级动画是很有帮助的。好吧，废话少说直接上菜。 1.正圆运动一般情况下，圆的直角坐标方程可以表示为：x2+y2=R2，根据此公式可以得出圆在直角坐标中的轨迹。也许，你会说这样就可以通过改变x,y">
+<meta name="keywords" content="canvas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周一点canvas动画--圆周运动">
+<meta property="og:url" content="http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/index.html">
+<meta property="og:site_name" content="一只会飞的鱼">
+<meta property="og:description" content="圆周运动可以分为两种基本的形式：正圆运动和椭圆运动。在讲解圆周运动之前，必不可少的数学公式即将袭来。so,各位骚年们，请护好自己的膝盖。听不懂没关系，只要明白其中的原理就行。当然，能懂是最好的，这对后面学习高级动画是很有帮助的。好吧，废话少说直接上菜。 1.正圆运动一般情况下，圆的直角坐标方程可以表示为：x2+y2=R2，根据此公式可以得出圆在直角坐标中的轨迹。也许，你会说这样就可以通过改变x,y">
+<meta property="og:image" content="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&Expires=1862982657&Signature=rb4NSIJf9%2F8Z2JaGc%2B%2Fcx56z4Rc%3D">
+<meta property="og:image" content="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&Expires=1862982657&Signature=rb4NSIJf9%2F8Z2JaGc%2B%2Fcx56z4Rc%3D">
+<meta property="og:image" content="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion2.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&Expires=1538983145&Signature=4B9YbH0klb3VERxJ%2B28HyGK6WTU%3D">
+<meta property="og:image" content="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion2.gif?OSSAccessKeyId=LTAIkU9IYC0zIU2B&Expires=1862982876&Signature=o6xSaWwPhPwKbtdWyas1MoYdd0c%3D">
+<meta property="og:image" content="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2Fdistance.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&Expires=1862983307&Signature=mgWyOtkIEXWMCAKOrLzeRWKQI18%3D">
+<meta property="og:updated_time" content="2017-08-17T15:22:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周一点canvas动画--圆周运动">
+<meta name="twitter:description" content="圆周运动可以分为两种基本的形式：正圆运动和椭圆运动。在讲解圆周运动之前，必不可少的数学公式即将袭来。so,各位骚年们，请护好自己的膝盖。听不懂没关系，只要明白其中的原理就行。当然，能懂是最好的，这对后面学习高级动画是很有帮助的。好吧，废话少说直接上菜。 1.正圆运动一般情况下，圆的直角坐标方程可以表示为：x2+y2=R2，根据此公式可以得出圆在直角坐标中的轨迹。也许，你会说这样就可以通过改变x,y">
+<meta name="twitter:image" content="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&Expires=1862982657&Signature=rb4NSIJf9%2F8Z2JaGc%2B%2Fcx56z4Rc%3D">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>每周一点canvas动画--圆周运动</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/supperjet">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2017/08/17/每周一点canvas动画-波形运动/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&text=每周一点canvas动画--圆周运动"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&is_video=false&description=每周一点canvas动画--圆周运动"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周一点canvas动画--圆周运动&body=Check out this article: http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&name=每周一点canvas动画--圆周运动&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-正圆运动"><span class="toc-number">1.</span> <span class="toc-text">1.正圆运动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-椭圆运动"><span class="toc-number">2.</span> <span class="toc-text">2.椭圆运动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、两点之间的距离"><span class="toc-number"></span> <span class="toc-text">三、两点之间的距离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        每周一点canvas动画--圆周运动
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">一只会飞的鱼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-08-17T15:07:24.000Z" itemprop="datePublished">2017-08-17</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/canvas/">canvas</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>圆周运动可以分为两种基本的形式：<code>正圆运动</code>和<code>椭圆运动</code>。<br>在讲解圆周运动之前，必不可少的数学公式即将袭来。so,各位骚年们，请护好自己的膝盖。听不懂没关系，只要明白其中的原理就行。当然，能懂是最好的，这对后面学习高级动画是很有帮助的。好吧，废话少说直接上菜。</p>
+<h3 id="1-正圆运动"><a href="#1-正圆运动" class="headerlink" title="1.正圆运动"></a>1.正圆运动</h3><p>一般情况下，圆的直角坐标方程可以表示为：<code>x2+y2=R2</code>，根据此公式可以得出圆在直角坐标中的轨迹。也许，你会说这样就可以通过改变x,y的坐标位置让物体做圆周运动。但是，实际情况是这种方法并不可行。因为，你无法精确的计算出物体做圆周运动的每一个坐标位置。就算你成功计算出物体做圆周运动的精确坐标。OK!你可以想象那是多么大的工作量。所以，我们需要转变思路，让计算机去做这种精确的计算问题。</p>
+<p><img src="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&amp;Expires=1862982657&amp;Signature=rb4NSIJf9%2F8Z2JaGc%2B%2Fcx56z4Rc%3D" alt=""></p>
+<p>上图展示了从圆的函数表达式到圆的参数方程之间的转换过程。理解不理解都没有关系，总之你要明白，最终我们将 x, y 与 sin 和 cos 扯上关系了。而圆的参数方程就表示的是一个圆。这样我们想要让一个物体做圆周运动，就只需要让计算机自己去来计算每一帧物体所对应的坐标值。而我们所需要做的只是简单的改变<code>θ</code>值。有多简单呢，因为根据sin，cos函数的周期性只需要每一帧自增一个值或自减一个值。具体代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">window.onload = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">           var canvas = document.getElementById(<span class="string">'canvas'</span>),</div><div class="line">               context = canvas.getContext(<span class="string">'2d'</span>);</div><div class="line"></div><div class="line">           var ball = new Ball();</div><div class="line"></div><div class="line">           var angle = 0, // 旋转的角度</div><div class="line">               centerX = canvas.width/2,</div><div class="line">               centerY = canvas.height/2,</div><div class="line">               radius = 100, // 定义半径</div><div class="line">               speed = 0.05; // 每帧旋转角度的增加值</div><div class="line"></div><div class="line">           (<span class="keyword">function</span> <span class="function"><span class="title">drawFrame</span></span>()&#123;</div><div class="line">               window.requestAnimationFrame(drawFrame, canvas);</div><div class="line">               context.clearRect(0,0,canvas.width, canvas.height);</div><div class="line"></div><div class="line">               //centerX, centerY 的作用是让球绕画布中心旋转</div><div class="line">               ball.x = centerX + Math.sin(angle)*radius;</div><div class="line">               ball.y = centerY + Math.cos(angle)*radius;</div><div class="line"></div><div class="line">   //角度增加</div><div class="line">               angle += speed;</div><div class="line">               ball.draw(context);</div><div class="line">           &#125;());</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p>效果图</p>
+<p><img src="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&amp;Expires=1862982657&amp;Signature=rb4NSIJf9%2F8Z2JaGc%2B%2Fcx56z4Rc%3D" alt=""></p>
+<p>ok,自己动手试试吧！看看是不是球体绕着画布中心做着圆周运动呢！这里我们需要的条件比较多 angle 和 Radius，在后面的章节中我们将介绍如何只通过 angle 就实现圆周运动。为了更容易理解，我劝你最好复习一下中学的知识，哈哈！！！</p>
+<h3 id="2-椭圆运动"><a href="#2-椭圆运动" class="headerlink" title="2.椭圆运动"></a>2.椭圆运动</h3><p>椭圆和正圆的不同之处可以这样理解：<strong>正圆半径在x轴和y轴上的距离是相同的，都是Radius.而椭圆则是不同的,我们用a, b 表示。</strong></p>
+<p><img src="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion2.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&amp;Expires=1538983145&amp;Signature=4B9YbH0klb3VERxJ%2B28HyGK6WTU%3D" alt=""></p>
+<p>具体到代码里，就是半径不同了呗！是不是so easy,上代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">'canvas'</span>);</div><div class="line">            <span class="keyword">var</span> context = canvas.getContext(<span class="string">'2d'</span>);</div><div class="line">            <span class="keyword">var</span> ball = <span class="keyword">new</span> Ball();</div><div class="line">            </div><div class="line">            <span class="keyword">var</span> centerX = canvas.width/<span class="number">2</span>,</div><div class="line">                centerY = canvas.height/<span class="number">2</span>,</div><div class="line">                angle = <span class="number">0</span>,</div><div class="line">                radiusX = <span class="number">50</span>,</div><div class="line">                radiusY = <span class="number">100</span>,</div><div class="line">                speed = <span class="number">0.05</span>;</div><div class="line">            </div><div class="line">            	ball.x = centerX;</div><div class="line">            	ball.y = centerY;</div><div class="line">                </div><div class="line">             context.fillStyle = <span class="string">"rgba(0,0,0,.01)"</span>; </div><div class="line">            (<span class="function"><span class="keyword">function</span> <span class="title">drawFrame</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">window</span>.requestAnimationFrame(drawFrame,canvas);</div><div class="line">                context.fillRect(<span class="number">0</span>,<span class="number">0</span>,canvas.width,canvas.height);</div><div class="line">                </div><div class="line">                <span class="comment">//当radius的值相等时为圆周运动</span></div><div class="line">                <span class="comment">//当radius的值不想等是为椭圆运动</span></div><div class="line">                ball.x = centerX + <span class="built_in">Math</span>.sin(angle)*radiusX; <span class="comment">//radiusX = 50</span></div><div class="line">                ball.y = centerY + <span class="built_in">Math</span>.cos(angle)*radiusY; <span class="comment">//radiusY = 100</span></div><div class="line">                angle += speed;</div><div class="line">                </div><div class="line">                ball.draw(context);</div><div class="line">            &#125;)();</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>为了让椭圆的效果看起来更加明显，代替clearRect采用fillRect是小球的运动形成尾迹。</p>
+<p><img src="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2FcircleMotion2.gif?OSSAccessKeyId=LTAIkU9IYC0zIU2B&amp;Expires=1862982876&amp;Signature=o6xSaWwPhPwKbtdWyas1MoYdd0c%3D" alt=""></p>
+<h2 id="三、两点之间的距离"><a href="#三、两点之间的距离" class="headerlink" title="三、两点之间的距离"></a>三、两点之间的距离</h2><p>按理来说，连点之间的距离是不会用到三角函数的。但是，其实两点间的距离公式是可以通过勾股定理推出来的，所以这里直接就把他归到三角函数里。<br>这里就不画示意图了直接给你个公式好了(原谅我偷个懒)，假设有两个点, a(x1, y1), b(x2, y2)。那么怎样求它们之间的距离呢！公式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">dx = x2 - x1;</div><div class="line">dy = y2 - y1;</div><div class="line">distance = <span class="built_in">Math</span>.sqrt(dx*dx + dy*dy); <span class="comment">//这不就是勾股定理</span></div></pre></td></tr></table></figure>
+<p>这里给你个小的Demo,代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">   &lt;canvas id=<span class="string">"canvas"</span> width=<span class="string">"500"</span> height=<span class="string">"500"</span> style=<span class="string">"background:#000;"</span>&gt;</div><div class="line">          your browser not support canvas!</div><div class="line">&lt;<span class="regexp">/canvas&gt;</span></div><div class="line"><span class="regexp">      &lt;p id="log"&gt;&lt;/</span>p&gt;</div><div class="line">      &lt;script src=<span class="string">"../js/utils.js"</span>&gt;&lt;/script&gt;</div><div class="line">      &lt;script&gt;</div><div class="line">      <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              <span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">'canvas'</span>);</div><div class="line">              <span class="keyword">var</span> log = <span class="built_in">document</span>.getElementById(<span class="string">'log'</span>);</div><div class="line">              <span class="keyword">var</span> mouse = utils.captureMouse(canvas);</div><div class="line">              <span class="keyword">var</span> context = canvas.getContext(<span class="string">'2d'</span>);</div><div class="line"></div><div class="line">              <span class="comment">//中心位置创建一个方块</span></div><div class="line">              <span class="keyword">var</span> rect = &#123;</div><div class="line">                  x:canvas.width/<span class="number">2</span>,</div><div class="line">                  y:canvas.height/<span class="number">2</span></div><div class="line">              &#125;;</div><div class="line"></div><div class="line">              (<span class="function"><span class="keyword">function</span> <span class="title">drawFrame</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                  <span class="built_in">window</span>.requestAnimationFrame(drawFrame,canvas);</div><div class="line">                  context.clearRect(<span class="number">0</span>,<span class="number">0</span>,canvas.width,canvas.height);</div><div class="line"></div><div class="line">                  <span class="keyword">var</span> dx = mouse.x - rect.x;</div><div class="line">                  <span class="keyword">var</span> dy = mouse.y - rect.y;</div><div class="line">                  <span class="keyword">var</span> dis = <span class="built_in">Math</span>.sqrt(dx*dx + dy*dy);</div><div class="line"></div><div class="line">                  <span class="comment">//画方块</span></div><div class="line">                  context.fillStyle = <span class="string">'#ffffff'</span>;</div><div class="line">                  context.fillRect(rect.x<span class="number">-2</span>,rect.y<span class="number">-2</span>,<span class="number">4</span>,<span class="number">4</span>);</div><div class="line">                  <span class="comment">//画线</span></div><div class="line">                  context.save();</div><div class="line">                  context.strokeStyle = <span class="string">'#ffffff'</span>;</div><div class="line">                  context.beginPath()</div><div class="line">                  context.moveTo(rect.x,rect.y);</div><div class="line">                  context.lineTo(mouse.x,mouse.y);</div><div class="line">                  context.closePath();</div><div class="line">                  context.stroke();</div><div class="line">                  context.restore();</div><div class="line">                  <span class="comment">//显示距离</span></div><div class="line">                  log.style.left = (mouse.x + rect.x)/<span class="number">2</span> + <span class="string">'px'</span>;</div><div class="line">                  log.style.top = (mouse.y + rect.y)/<span class="number">2</span> + <span class="string">'px'</span>;</div><div class="line">                  log.innerHTML = dis;</div><div class="line">              &#125;)();</div><div class="line">          &#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<p>效果图</p>
+<p><img src="http://zyf-img.oss-cn-beijing.aliyuncs.com/Myblog%2Fpic%2Fdistance.PNG?OSSAccessKeyId=LTAIkU9IYC0zIU2B&amp;Expires=1862983307&amp;Signature=mgWyOtkIEXWMCAKOrLzeRWKQI18%3D" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">## 角度旋转</div><div class="line">dx = mouse.x - object.x;</div><div class="line">dy = mouse.y - object.y;</div><div class="line">object.rotation = <span class="built_in">Math</span>.atan2(dy,dx)*<span class="number">180</span>/<span class="built_in">Math</span>.PI</div><div class="line"></div><div class="line">## 平滑运动</div><div class="line">   value = center + <span class="built_in">Math</span>.sin(angle)*range;</div><div class="line">   angle += speed;</div><div class="line"></div><div class="line">## 正圆运动</div><div class="line">   x_position = centerX + <span class="built_in">Math</span>.sin(angle)*radius;</div><div class="line">   y_position = centerY + <span class="built_in">Math</span>.cos(angle)*radius;</div><div class="line">   angle += speed;</div><div class="line"></div><div class="line">## 椭圆运动</div><div class="line">   x_position = centerX + <span class="built_in">Math</span>.cos(angle)*radiusX;</div><div class="line">   y_position = centerY + <span class="built_in">Math</span>.sin(angle)*radiusY;</div><div class="line">   angle += speed;</div><div class="line"></div><div class="line">##两点间距离</div><div class="line">dx = x2 - x1;</div><div class="line">dy = y2 - y1;</div><div class="line">dist = <span class="built_in">Math</span>.sqrt(dx*dx + dy*dy);</div></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/supperjet">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-正圆运动"><span class="toc-number">1.</span> <span class="toc-text">1.正圆运动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-椭圆运动"><span class="toc-number">2.</span> <span class="toc-text">2.椭圆运动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、两点之间的距离"><span class="toc-number"></span> <span class="toc-text">三、两点之间的距离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&text=每周一点canvas动画--圆周运动"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&is_video=false&description=每周一点canvas动画--圆周运动"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周一点canvas动画--圆周运动&body=Check out this article: http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&title=每周一点canvas动画--圆周运动"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/08/17/每周一点canvas动画-圆周运动/&name=每周一点canvas动画--圆周运动&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 zhouyufei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/supperjet">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
