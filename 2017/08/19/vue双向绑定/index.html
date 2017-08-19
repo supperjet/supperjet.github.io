@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="转载自达人科技  vue实现双向绑定的两个技术点  数据劫持 发布订阅模式  1、数据劫持访问器属性会”覆盖”同名的普通属性，因为访问器属性会被优先访问，与其同名的普通属性则会被忽略（也就是所谓的被”劫持”了）。 2、极简双向绑定的实现12&amp;lt;input type=&quot;text&quot; id=&quot;hh&quot; v-model=&quot;text&quot;&amp;gt;&amp;lt;p id=&quot;jj&quot;&amp;gt;&amp;lt;/p&amp;gt; 123">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue双向绑定">
+<meta property="og:url" content="http://yoursite.com/2017/08/19/vue双向绑定/index.html">
+<meta property="og:site_name" content="一只会飞的鱼">
+<meta property="og:description" content="转载自达人科技  vue实现双向绑定的两个技术点  数据劫持 发布订阅模式  1、数据劫持访问器属性会”覆盖”同名的普通属性，因为访问器属性会被优先访问，与其同名的普通属性则会被忽略（也就是所谓的被”劫持”了）。 2、极简双向绑定的实现12&amp;lt;input type=&quot;text&quot; id=&quot;hh&quot; v-model=&quot;text&quot;&amp;gt;&amp;lt;p id=&quot;jj&quot;&amp;gt;&amp;lt;/p&amp;gt; 123">
+<meta property="og:image" content="http://p1.pstatp.com/large/11b1000d1c778054c417">
+<meta property="og:image" content="http://p3.pstatp.com/large/10f20005b6133b6343fa">
+<meta property="og:image" content="http://p3.pstatp.com/large/11e80006c003ffec762f">
+<meta property="og:image" content="http://p2.pstatp.com/large/10e90009cfb744e22698">
+<meta property="og:image" content="http://p1.pstatp.com/large/11e80006c004749d36ef">
+<meta property="og:updated_time" content="2017-08-19T01:57:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue双向绑定">
+<meta name="twitter:description" content="转载自达人科技  vue实现双向绑定的两个技术点  数据劫持 发布订阅模式  1、数据劫持访问器属性会”覆盖”同名的普通属性，因为访问器属性会被优先访问，与其同名的普通属性则会被忽略（也就是所谓的被”劫持”了）。 2、极简双向绑定的实现12&amp;lt;input type=&quot;text&quot; id=&quot;hh&quot; v-model=&quot;text&quot;&amp;gt;&amp;lt;p id=&quot;jj&quot;&amp;gt;&amp;lt;/p&amp;gt; 123">
+<meta name="twitter:image" content="http://p1.pstatp.com/large/11b1000d1c778054c417">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vue双向绑定</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/js/">JS</a></li>
+         
+          <li><a href="/tags/canvas/">Canvas</a></li>
+         
+          <li><a href="/tags/webgl/">Webgl</a></li>
+         
+          <li><a href="/tags/vue/">Vue</a></li>
+         
+          <li><a href="/tags/react/">React</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2017/08/19/每周一点canvas动画-加速度/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/08/19/vue双向绑定/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/08/19/vue双向绑定/&text=vue双向绑定"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/08/19/vue双向绑定/&is_video=false&description=vue双向绑定"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vue双向绑定&body=Check out this article: http://yoursite.com/2017/08/19/vue双向绑定/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/08/19/vue双向绑定/&name=vue双向绑定&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、数据劫持"><span class="toc-number">1.</span> <span class="toc-text">1、数据劫持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、极简双向绑定的实现"><span class="toc-number">2.</span> <span class="toc-text">2、极简双向绑定的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、分解任务"><span class="toc-number">3.</span> <span class="toc-text">3、分解任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、DocumentFragment"><span class="toc-number">4.</span> <span class="toc-text">4、DocumentFragment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、数据初始化绑定"><span class="toc-number">5.</span> <span class="toc-text">5、数据初始化绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、响应式的数据绑定"><span class="toc-number">6.</span> <span class="toc-text">6、响应式的数据绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7、订阅-发布模式"><span class="toc-number">7.</span> <span class="toc-text">7、订阅/发布模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8、双向绑定的实现"><span class="toc-number">8.</span> <span class="toc-text">8、双向绑定的实现</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vue双向绑定
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">一只会飞的鱼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-08-19T01:55:51.000Z" itemprop="datePublished">2017-08-19</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/vue/">vue</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>转载自<a href="http://www.toutiao.com/i6354960152998707713/?tt_from=weixin&amp;utm_campaign=client_share&amp;from=singlemessage&amp;app=news_article&amp;utm_source=weixin&amp;iid=6227707722&amp;utm_medium=toutiao_android&amp;wxshare_count=2&amp;pbid=36706976729" target="_blank" rel="external">达人科技</a></p>
+</blockquote>
+<p>vue实现双向绑定的两个技术点</p>
+<ol>
+<li>数据劫持</li>
+<li>发布订阅模式</li>
+</ol>
+<h2 id="1、数据劫持"><a href="#1、数据劫持" class="headerlink" title="1、数据劫持"></a>1、数据劫持</h2><p>访问器属性会”覆盖”同名的普通属性，因为访问器属性会被优先访问，与其同名的普通属性则会被忽略（也就是所谓的被”劫持”了）。</p>
+<h2 id="2、极简双向绑定的实现"><a href="#2、极简双向绑定的实现" class="headerlink" title="2、极简双向绑定的实现"></a>2、极简双向绑定的实现</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;input type=<span class="string">"text"</span> id=<span class="string">"hh"</span> v-model=<span class="string">"text"</span>&gt;</div><div class="line">&lt;p id=<span class="string">"jj"</span>&gt;&lt;/p&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">"hello"</span>, &#123;</div><div class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"hh"</span>).value = val;</div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"jj"</span>).innerHTML = val;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'keyup'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    obj.hello = e.target.value;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>此例实现的效果是：随文本框输入文字的变化，p中会同步显示相同的文字内容；在js或控制台显式的修改obj.name的值，视图会相应更新。这样就实现了model =&gt;view以及view =&gt; model的双向绑定，并且是响应式的。这就是Vue实现双向绑定的基本原理。</p>
+<h2 id="3、分解任务"><a href="#3、分解任务" class="headerlink" title="3、分解任务"></a>3、分解任务</h2><p>上述示例仅仅是为了说明原理。我们最终要实现的是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</div><div class="line">	el: <span class="string">'#app'</span>,</div><div class="line">    data: &#123;</div><div class="line">    	text: <span class="string">'hello world'</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>首先将该任务分成几个子任务：<br>1、输入框以及文本节点与data中的数据绑定<br>2、输入框内容变化时，data中的数据同步变化。即view =&gt; model的变化。<br>3、data中的数据变化时，文本节点的内容同步变化。即model =&gt; view的变化。<br>要实现任务一，需要对DOM进行编译，这里有一个知识点：DocumentFragment。</p>
+<h2 id="4、DocumentFragment"><a href="#4、DocumentFragment" class="headerlink" title="4、DocumentFragment"></a>4、DocumentFragment</h2><p>DocumentFragment（文档片段）可以看作节点容器，它可以包含多个子节点，当我们将它插入到DOM中时，只有它的子节点会插入目标节点，所以把它看作一组节点的容器。使用DocumentFragment处理节点，速度和性能远远优于直接操作DOM。Vue进行编译时，就是将挂载目标的所有子节点劫持（真的是劫持）到DocumentFragment中，经过一番处理后，再将DocumentFragment整体返回插入挂载目标。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;div id=<span class="string">"app"</span>&gt;</div><div class="line">	&lt;input type=<span class="string">"text"</span> id=<span class="string">"aa"</span>&gt;</div><div class="line">    &lt;p id=<span class="string">"bb"</span>&gt;&lt;/p&gt;</div><div class="line">&lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">&lt;script&gt;</span></div><div class="line"><span class="regexp">	function nodeToFragment(node)&#123;</span></div><div class="line"><span class="regexp">    	var flag = document.createDocumentFragment();</span></div><div class="line"><span class="regexp">        var child;</span></div><div class="line"><span class="regexp">        while(child = node.firstChild)&#123;</span></div><div class="line"><span class="regexp">        	flag.append(child);         /</span><span class="regexp">/劫持所有子节点</span></div><div class="line"><span class="regexp">        &#125;</span></div><div class="line"><span class="regexp">        return flag</span></div><div class="line"><span class="regexp">    &#125;</span></div><div class="line"><span class="regexp">    var dom = nodeToFragment(document.getElementById('app'));</span></div><div class="line"><span class="regexp">    console.log(dom); /</span><span class="regexp">/打印出来看看是什么</span></div><div class="line"><span class="regexp">    </span></div><div class="line"><span class="regexp">    document.getElementById('app').appendChild(dom); /</span><span class="regexp">/返回文档片段到app中</span></div><div class="line"><span class="regexp">&lt;/</span>script&gt;</div></pre></td></tr></table></figure>
+<h2 id="5、数据初始化绑定"><a href="#5、数据初始化绑定" class="headerlink" title="5、数据初始化绑定"></a>5、数据初始化绑定</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">compile</span>(<span class="params">node, vm</span>)</span>&#123;</div><div class="line">	<span class="comment">//匹配&#123;&#123;text&#125;&#125;</span></div><div class="line">	<span class="keyword">var</span> reg = <span class="regexp">/\&#123;\&#123;(.*)\&#125;\&#125;/</span>;</div><div class="line">    <span class="comment">//判断节点类型</span></div><div class="line">    <span class="keyword">if</span>(node.nodeType === <span class="number">1</span>)&#123;                   <span class="comment">//Element型</span></div><div class="line">    	<span class="keyword">var</span> attr = node.attributes;            <span class="comment">//获取节点所有属性</span></div><div class="line">    	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;attr.length; i++)&#123;</div><div class="line">        	<span class="keyword">if</span>(attr[i].nodeName == <span class="string">'v-model'</span>)&#123;</div><div class="line">            	<span class="keyword">var</span> name = attr[i].value;   <span class="comment">//获取v-model绑定的属性名</span></div><div class="line">                node.value = vm.data[name];</div><div class="line">                node.removeAttribute(<span class="string">'v-model'</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果为文本类型</span></div><div class="line">    <span class="keyword">if</span>(node.nodeType === <span class="number">3</span>)&#123;</div><div class="line">    	<span class="keyword">if</span>(reg.test(node.nodeValue))&#123;</div><div class="line">        	<span class="keyword">var</span> name = <span class="built_in">RegExp</span>.$<span class="number">1</span>;			<span class="comment">//获取匹配到的字符串</span></div><div class="line">            name = name.trim();</div><div class="line">            node.nodeValue = vm.data[name]; <span class="comment">//将data值付给该node</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nodeToFragment</span>(<span class="params">node, vm</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> flag = <span class="built_in">document</span>.createDocumentFragment();</div><div class="line">        <span class="keyword">var</span> child;</div><div class="line">        <span class="keyword">while</span>(child = node.firstChild)&#123;</div><div class="line">        </div><div class="line">        	compile(child, vm);</div><div class="line">            </div><div class="line">        	flag.append(child);         <span class="comment">//劫持所有子节点</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> flag</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vue</span>(<span class="params">options</span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.data = options.data;</div><div class="line">    <span class="keyword">var</span> id = options.el;</div><div class="line">    <span class="keyword">var</span> dom = nodeToFragment(<span class="built_in">document</span>.getElementById(id), <span class="keyword">this</span>);</div><div class="line">    </div><div class="line">    <span class="built_in">document</span>.getElementById(id).appendChild(dom);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</div><div class="line">	el: <span class="string">'app'</span>,</div><div class="line">    data: &#123;</div><div class="line">    	text: <span class="string">'hello world'</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>以上代码实现了任务一，我们可以看到，hello world已经呈现在输入框和文本节点中。</p>
+<h2 id="6、响应式的数据绑定"><a href="#6、响应式的数据绑定" class="headerlink" title="6、响应式的数据绑定"></a>6、响应式的数据绑定</h2><p>再来看任务二的实现思路：当我们在输入框输入数据的时候，首先触发input事件（或者keyup、change事件），在相应的事件处理程序中，我们获取输入框的value并赋值给vm实例的text属性。我们会利用defineProperty将data中的text劫持为vm的访问器属性，因此给vm.text赋值，就会触发set方法。在set方法中主要做两件事，第一是更新属性的值，第二留到任务三再说。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj, key, val</span>)</span>&#123;</div><div class="line">           <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</div><div class="line">               get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                   <span class="keyword">if</span>(Dep.target) dep.addSub(Dep.target);</div><div class="line">                   <span class="keyword">return</span> val;</div><div class="line">               &#125;,</div><div class="line">               set: <span class="function"><span class="keyword">function</span>(<span class="params">newVal</span>)</span>&#123;</div><div class="line">                   <span class="keyword">if</span>(newVal == val) <span class="keyword">return</span>;</div><div class="line">                   val = newVal;</div><div class="line">                   <span class="comment">//console.log(val);</span></div><div class="line">               &#125;</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">obj, vm</span>)</span>&#123;</div><div class="line">           <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">key</span>)</span>&#123;</div><div class="line">               defineReactive(vm, key, obj[key]);</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line">       </div><div class="line"> <span class="function"><span class="keyword">function</span> <span class="title">Vue</span>(<span class="params">options</span>)</span>&#123;</div><div class="line">           <span class="keyword">this</span>.data = options.data;</div><div class="line">           <span class="keyword">var</span> data = <span class="keyword">this</span>.data;</div><div class="line">           <span class="keyword">var</span> id = options.el;</div><div class="line">           </div><div class="line">           <span class="comment">//1 监听数据</span></div><div class="line">           observe(data, <span class="keyword">this</span>)</div><div class="line">           </div><div class="line">           <span class="comment">//2 编译html</span></div><div class="line">           <span class="keyword">var</span> dom = nodeToFragment(<span class="built_in">document</span>.getElementById(id), <span class="keyword">this</span>);</div><div class="line">           <span class="built_in">document</span>.getElementById(id).appendChild(dom);</div><div class="line">       &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> compile(node, vm)&#123;</div><div class="line">           var reg = /\&#123;\&#123;(.*)\&#125;\&#125;/;</div><div class="line">           </div><div class="line">           //节点类型为元素</div><div class="line">           <span class="keyword">if</span>(node.nodeType === 1)&#123;</div><div class="line">               var attr = node.attributes;</div><div class="line">               //解析属性</div><div class="line">               <span class="keyword">for</span>(var i=0; i&lt;attr.length; i++)&#123;</div><div class="line">                   <span class="keyword">if</span>(attr[i].nodeName == <span class="string">"v-model"</span>)&#123;</div><div class="line">                       var name = attr[i].value; //获取v-model绑定的属性名</div><div class="line">                       </div><div class="line">                       *********************</div><div class="line">                       node.addEventListener(<span class="string">"input"</span>, <span class="keyword">function</span>(e)&#123;</div><div class="line">                           vm[name] = e.target.value;</div><div class="line">                       &#125;);</div><div class="line">                       node.value = vm[name]; //将data值赋值给node</div><div class="line">                       *********************</div><div class="line">                       </div><div class="line">                       </div><div class="line">                       node.removeAttribute(<span class="string">'v-model'</span>);</div><div class="line">                   &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           </div><div class="line">           //如果为文本节点</div><div class="line">           <span class="keyword">if</span>(node.nodeType === 3)&#123;</div><div class="line">               <span class="keyword">if</span>(reg.test(node.nodeValue))&#123;</div><div class="line">                   var name = RegExp.<span class="variable">$1</span>; //获取匹配到的字符串</div><div class="line">                   name = name.trim();</div><div class="line">                   </div><div class="line">                   *********************</div><div class="line">                   node.nodeValue = vm[name];</div><div class="line">                   *********************</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<p>任务二也就完成了，text属性值会与输入框的内容同步变化</p>
+<h2 id="7、订阅-发布模式"><a href="#7、订阅-发布模式" class="headerlink" title="7、订阅/发布模式"></a>7、订阅/发布模式</h2><p>text属性变化了，set方法触发了，但是文本节点的内容没有变化。如何让同样绑定到text的文本节点也同步变化呢？这里又有一个知识点：订阅发布模式。订阅发布模式（又称观察者模式）定义了一种一对多的关系，让多个观察者同时监听某一个主题对象，这个主题对象的状态发生改变时就会通知所有观察者对象。<br>发布者发出通知 =&gt; 主题对象收到通知并推送给订阅者 =&gt; 订阅者执行相应操作</p>
+<p><img src="http://p1.pstatp.com/large/11b1000d1c778054c417" alt=""></p>
+<p>之前提到的，当set方法触发后做的第二件事就是作为发布者发出通知：“我是属性text，我变了”。文本节点则是作为订阅者，在收到消息后执行相应的更新操作。</p>
+<h2 id="8、双向绑定的实现"><a href="#8、双向绑定的实现" class="headerlink" title="8、双向绑定的实现"></a>8、双向绑定的实现</h2><p>回顾一下，每当new一个Vue，主要做了两件事：</p>
+<p>第一个是监听数据：observe(data)<br>第二个是编译HTML：nodeToFragement(id)</p>
+<p>在监听数据的过程中，会为data中的每一个属性生成一个主题对象dep。在编译HTML的过程中，会为每个与数据绑定相关的节点生成一个订阅者watcher，watcher会将自己添加到相应属性的dep中。我们已经实现：修改输入框内容 =&gt; 在事件回调函数中修改属性值 =&gt; 触发属性的set方法。接下来我们要实现的是：发出通知dep.notify =&gt; 触发订阅者的update方法 =&gt; 更新视图。这里的关键逻辑是：如何将watcher添加到关联属性的dep中。</p>
+<p><img src="http://p3.pstatp.com/large/10f20005b6133b6343fa" alt=""></p>
+<p>在编译HTML过程中，为每个与data关联的节点生成一个Watcher。Watcher函数中发生了什么呢？</p>
+<p><img src="http://p3.pstatp.com/large/11e80006c003ffec762f" alt=""></p>
+<p>首先，将自己赋给了一个全局变量Dep.target；<br>其次，执行了update方法，进而执行了get方法，get的方法读取了vm的访问器属性，从而触发了访问器属性的get方法，get方法中将该watcher添加到了对应访问器属性的dep中；<br>再次，获取属性的值，然后更新视图。<br>最后，将Dep.target设为空。因为它是全局变量，也是watcher与dep关联的唯一桥梁，任何时刻都必须保证Dep.target只有一个值。</p>
+<p><img src="http://p2.pstatp.com/large/10e90009cfb744e22698" alt=""></p>
+<p><img src="http://p1.pstatp.com/large/11e80006c004749d36ef" alt=""></p>
+<p>至此，hello world双向绑定就基本实现了。文本内容会随输入框内容同步变化，在控制器中修改vm.text的值，会同步反映到文本内容中。</p>
+<p><a href="https://github.com/bison1994/two-way-data-binding" target="_blank" rel="external">完整代码</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/js/">JS</a></li>
+         
+          <li><a href="/tags/canvas/">Canvas</a></li>
+         
+          <li><a href="/tags/webgl/">Webgl</a></li>
+         
+          <li><a href="/tags/vue/">Vue</a></li>
+         
+          <li><a href="/tags/react/">React</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、数据劫持"><span class="toc-number">1.</span> <span class="toc-text">1、数据劫持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、极简双向绑定的实现"><span class="toc-number">2.</span> <span class="toc-text">2、极简双向绑定的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、分解任务"><span class="toc-number">3.</span> <span class="toc-text">3、分解任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、DocumentFragment"><span class="toc-number">4.</span> <span class="toc-text">4、DocumentFragment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、数据初始化绑定"><span class="toc-number">5.</span> <span class="toc-text">5、数据初始化绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、响应式的数据绑定"><span class="toc-number">6.</span> <span class="toc-text">6、响应式的数据绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7、订阅-发布模式"><span class="toc-number">7.</span> <span class="toc-text">7、订阅/发布模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8、双向绑定的实现"><span class="toc-number">8.</span> <span class="toc-text">8、双向绑定的实现</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/08/19/vue双向绑定/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/08/19/vue双向绑定/&text=vue双向绑定"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/08/19/vue双向绑定/&is_video=false&description=vue双向绑定"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vue双向绑定&body=Check out this article: http://yoursite.com/2017/08/19/vue双向绑定/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/08/19/vue双向绑定/&title=vue双向绑定"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/08/19/vue双向绑定/&name=vue双向绑定&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 zhouyufei
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/js/">JS</a></li>
+         
+          <li><a href="/tags/canvas/">Canvas</a></li>
+         
+          <li><a href="/tags/webgl/">Webgl</a></li>
+         
+          <li><a href="/tags/vue/">Vue</a></li>
+         
+          <li><a href="/tags/react/">React</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
